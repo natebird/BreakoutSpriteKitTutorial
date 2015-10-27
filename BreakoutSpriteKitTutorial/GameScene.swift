@@ -79,28 +79,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-    var touch = touches.first as! UITouch
-    var touchLocation = touch.locationInNode(self)
+  override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    let touch = touches.first as UITouch?
+    let touchLocation = touch!.locationInNode(self)
     
     if let body = physicsWorld.bodyAtPoint(touchLocation) {
       if body.node!.name == PaddleCategoryName {
-        println("Began touch on paddle")
+        print("Began touch on paddle")
         isFingerOnPaddle = true
       }
     }
   }
   
-  override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+  override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
     // 1. Check whether user touched the paddle
     if isFingerOnPaddle {
       // 2. Get touch location
-      var touch = touches.first as! UITouch
-      var touchLocation = touch.locationInNode(self)
-      var previousLocation = touch.previousLocationInNode(self)
+      let touch = touches.first as UITouch?
+      let touchLocation = touch!.locationInNode(self)
+      let previousLocation = touch!.previousLocationInNode(self)
       
       // 3. Get node for paddle
-      var paddle = childNodeWithName(PaddleCategoryName) as! SKSpriteNode
+      let paddle = childNodeWithName(PaddleCategoryName) as! SKSpriteNode
       
       // 4. Calculate new position along x for paddle
       var paddleX = paddle.position.x + (touchLocation.x - previousLocation.x)
@@ -114,7 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+  override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
     isFingerOnPaddle = false
   }
   
